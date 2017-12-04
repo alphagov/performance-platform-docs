@@ -1,0 +1,21 @@
+dist: trusty
+sudo: false
+language: ruby
+cache:
+  bundler: true
+script:
+  - bundle exec middleman build
+env:
+  global:
+    - PAAS_USERNAME=gsd-deploy@digital.cabinet-office.gov.uk
+
+deploy:
+  provider: cloudfoundry
+  username: ${PAAS_USERNAME}
+  password: ${PAAS_PASSWORD}
+  api: https://api.cloud.service.gov.uk
+  organization: government-service-data
+  space: staging
+  manifest: manifest.staging.yml
+  on:
+    branch: staging
